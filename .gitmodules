@@ -1,0 +1,6 @@
+[submodule "EduChronia-web"]
+	path = EduChronia-web
+	url = https://github.com/RendyDharmaPutra/EduChronia-web
+[submodule "EduChronia-api"]
+	path = EduChronia-api
+	url = https://github.com/RendyDharmaPutra/EduChronia-api
