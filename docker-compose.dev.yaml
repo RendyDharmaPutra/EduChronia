@@ -1,24 +1,36 @@
 services:
+  web:
+    container_name: educhronia-web
+    build:
+      context: ./EduChronia-web
+      dockerfile: .devcontainer/Dockerfile
+    ports:
+      - "${WEB_PORT}:3000"
+    volumes:
+      - ./EduChronia-web:/workspaces/EduChronia-web:cached
+    environment:
+      - NODE_ENV=development
+      - NUXT_PUBLIC_API_BASE_URL=http://api:${API_PORT}
+    command: sh -c "bun install && bun run dev"
+
   api:
     container_name: educhronia-api
     build:
       context: ./EduChronia-api
-      dockerfile: Dockerfile.dev
+      dockerfile: .devcontainer/Dockerfile
     ports:
       - "${API_PORT}:${API_PORT}"
     volumes:
-      - ./EduChronia-api:/app
-      - /app/node_modules
+      - ./EduChronia-api:/workspaces/EduChronia-api:cached
     environment:
       - NODE_ENV=development
-      - JWT_SECRET=${JWT_SECRET}
-      - HOST=${API_HOST}
       - PORT=${API_PORT}
-      - DATABASE_URL=${POSTGRES_URL}
+      - HOST=${API_HOST}
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:${POSTGRES_PORT}/${POSTGRES_DB}
     depends_on:
       postgres:
         condition: service_healthy
-    restart: unless-stopped
+    command: sh -c "bun install && bun run dev"
 
   postgres:
     image: postgres:alpine
