@@ -10,7 +10,7 @@ services:
       - ./EduChronia-web:/workspaces/EduChronia-web:cached
     environment:
       - NODE_ENV=development
-      - NUXT_PUBLIC_API_BASE_URL=http://api:${API_PORT}
+      - NUXT_PUBLIC_HOST_API_BASE_URL=${HOST_API_BASE_URL}
     command: sh -c "bun install && bun run dev"
 
   api:
@@ -26,6 +26,12 @@ services:
       - NODE_ENV=development
       - PORT=${API_PORT}
       - HOST=${API_HOST}
+      - HOST_WEB_BASE_URL=${HOST_WEB_BASE_URL}
+      - HOST_API_BASE_URL=${HOST_API_BASE_URL}
+      - BETTER_AUTH_BASE_URL=${BETTER_AUTH_BASE_URL}
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:${POSTGRES_PORT}/${POSTGRES_DB}
     depends_on:
       postgres:
