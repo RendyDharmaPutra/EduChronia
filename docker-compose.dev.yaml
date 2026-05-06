@@ -9,9 +9,12 @@ services:
     volumes:
       - ./EduChronia-web:/workspaces/EduChronia-web:cached
     environment:
+      - APP_VERSION=${APP_VERSION}
       - NODE_ENV=development
       - NUXT_PUBLIC_APP_URL=${HOST_WEB_BASE_URL}
       - NUXT_PUBLIC_HOST_API_BASE_URL=${HOST_API_BASE_URL}
+    depends_on:
+      - api
     command: sh -c "bun install && bun run dev"
 
   api:
@@ -24,6 +27,7 @@ services:
     volumes:
       - ./EduChronia-api:/workspaces/EduChronia-api:cached
     environment:
+      - APP_VERSION=${APP_VERSION}
       - NODE_ENV=development
       - PORT=${API_PORT}
       - HOST=${API_HOST}
